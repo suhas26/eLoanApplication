@@ -128,25 +128,20 @@ public class AdminController extends HttpServlet {
 		
 		try {
 			loanInfo = connDao.getLoanDetails(loanInfo);
-			if (!(loanInfo.getStatus().equalsIgnoreCase("Approved"))) {
-				loanDto.setAmtSanctioned(loanInfo.getAmtrequest());
-				loanDto.setPurpose(loanInfo.getPurpose());
-				loanDto.setStatus(loanInfo.getStatus());
-				
-				float requiredAmt = (float) ((loanInfo.getAmtrequest())*(Math.pow((1+interestRate/100),(term))));
-				loanDto.setEmi((int) (requiredAmt/term));
-				
-				LocalDate d1 = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
-				LocalDate d2 = d1.plusMonths(term);
-				loanDto.setStartDate(d1.toString());
-				loanDto.setEndDate(d2.toString());
-				
-				request.setAttribute("loanDto", loanDto);
-				return "calemi.jsp";
-			}else {
-				request.setAttribute("message", "Loan already Approved");
-				return "process.jsp";
-			}
+			loanDto.setAmtSanctioned(loanInfo.getAmtrequest());
+			loanDto.setPurpose(loanInfo.getPurpose());
+			loanDto.setStatus(loanInfo.getStatus());
+
+			float requiredAmt = (float) ((loanInfo.getAmtrequest())*(Math.pow((1+interestRate/100),(term))));
+			loanDto.setEmi((int) (requiredAmt/term));
+
+			LocalDate d1 = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
+			LocalDate d2 = d1.plusMonths(term);
+			loanDto.setStartDate(d1.toString());
+			loanDto.setEndDate(d2.toString());
+
+			request.setAttribute("loanDto", loanDto);
+			return "calemi.jsp";
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
