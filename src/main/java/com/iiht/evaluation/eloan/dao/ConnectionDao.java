@@ -210,25 +210,15 @@ public class ConnectionDao {
 		String sql = "SELECT * FROM loaninfo";
 		this.connect();
 		ArrayList<LoanInfo> allLoanInfo = new ArrayList<LoanInfo>();
-		LoanInfo dbLoanInfo = new LoanInfo();
+		LoanInfo dbLoanInfo;
 		
 		Statement stmt = this.jdbcConnection.createStatement();
 		ResultSet rs =  stmt.executeQuery(sql);
-		int i = 0;
 		while(rs.next()) {
-			dbLoanInfo.setApplno(rs.getInt("applno"));
-			dbLoanInfo.setPurpose(rs.getString("purpose"));
-			dbLoanInfo.setAmtrequest(rs.getInt("amtrequest"));
-			dbLoanInfo.setDoa(rs.getString("doa"));
-			dbLoanInfo.setBstructure(rs.getString("bstructure"));
-			dbLoanInfo.setBindicator(rs.getString("bindicator"));
-			dbLoanInfo.setAddress(rs.getString("address"));
-			dbLoanInfo.setMobile(rs.getString("mobile"));
-			dbLoanInfo.setEmail(rs.getString("email"));
-			dbLoanInfo.setStatus(rs.getString("status"));
+			dbLoanInfo = new LoanInfo(rs.getInt("applno"),rs.getString("purpose"),rs.getInt("amtrequest"),rs.getString("doa"),rs.getString("bstructure"),rs.getString("bindicator"),
+					rs.getString("address"),rs.getString("email"),rs.getString("mobile"),rs.getString("status"));
 			
-			allLoanInfo.add(i,dbLoanInfo);
-			i++;
+			allLoanInfo.add(dbLoanInfo);
 		}
 		
 		rs.close();
