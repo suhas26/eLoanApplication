@@ -50,7 +50,11 @@ function myFunction() {
 	
 	<%
 	LoanDto loanDto = (LoanDto)request.getAttribute("loanDto");
-	%>
+	if(loanDto.getStatus().equals("Approved")) {
+		%>
+		<h2 align="center" style="color:white;background-color:red;">Loan Already Approved.</h2>
+		<h2 align="center" style="color:white;background-color:red;">Cannot Approve again.</h2>
+	<% } %>
 	<div>
 		<form action="admin?action=updatestatus" method="post">
 			<table>
